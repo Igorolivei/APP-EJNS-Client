@@ -1,0 +1,81 @@
+<!DOCTIPE html>
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1,
+width=device-width, height=device-height, target-densitydpi=device-dpi" />
+	<head>
+	  <title>
+	    PPV - EJNS
+	  </title>
+	  <!--<script type="text/javascript" src="cordova.js"></script>-->
+	  <script src="js/sessionCookie.js" type="text/javascript"></script>
+  	<script src="js/js_utils.js" type="text/javascript"></script>
+  	<!--<script src="js/index.js" type="text/javascript"></script>-->
+	</head>
+	<!--<link rel="stylesheet" type="text/css" href="css/index.css" />-->
+	<link rel="stylesheet" type="text/css" href="css/style.css" />
+	<body>
+	  <h1 class="titulo"> PPV - Plano Pessoal de Vida </h1>
+	  <form id="login" onsubmit="return false;">
+	    <label class="login-label" for="usuario">Usuário:</label><br>
+	    <input id="usuario" type="text" /><br><br>	
+	    <label class="login-label" for="senha">Senha:</label><br>
+	    <input id="senha" type="password" /><br><br>
+	    <p id="erro_login" class="erro"></p>
+	    <input type="button" value="Entrar" onclick="autenticar();" />
+	  </form>
+	</body>
+</html>
+<script language="JavaScript">
+
+window.onload = function() {
+  if (readSession('id_usuario') && readSession('id_usuario') !== 0) {
+
+  	window.location.href = "seleciona_tela.html";
+  }
+}
+
+function autenticar(){
+
+  	var usuario = document.getElementById('usuario').value;
+		var senha   = document.getElementById('senha').value;
+
+		if (usuario == '' || senha == '') {
+			document.getElementById('erro_login').innerHTML = "Informe usuário e senha.";
+			return false;
+		}
+
+    var oParams = new Object();
+  	oParams.method = 'autenticar';
+  	oParams.login  = usuario;
+  	oParams.senha  = senha;
+
+    AJAXRequest("POST", oParams, "concluiAutenticacao");
+
+}
+
+function concluiAutenticacao(oAjax) {
+            
+  var obj = oAjax;
+  
+  if (obj.status == 0) {
+
+  	with (obj.usuario) {
+  		
+			writeSession('id_usuario', id_usuario);
+			writeSession('nome', nome);
+			writeSession('data_nasc', data_nasc);
+			writeSession('id_tipousuario', id_tipousuario);
+			writeSession('tipo_usuario', tipo_usuario);
+			writeSession('responde', perm_responde);
+			writeSession('le_respostas', perm_le_resposta);
+			writeSession('id_equipe', id_equipe);
+			writeSession('equipe', nome_equipe);
+			writeSession('setor', setor);
+  	}
+  	window.location.href = "seleciona_tela.html";
+  } else {
+		document.getElementById('erro_login').innerHTML = "Erro no login. Verifique se o usuário e a senha estão corretos.";
+  }
+}
+</script>
