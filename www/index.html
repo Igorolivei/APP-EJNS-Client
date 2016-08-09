@@ -7,14 +7,18 @@ width=device-width, height=device-height, target-densitydpi=device-dpi" />
 	  <title>
 	    PPV - EJNS
 	  </title>
-	  <!--<script type="text/javascript" src="cordova.js"></script>-->
-	  <script src="js/sessionCookie.js" type="text/javascript"></script>
+	<script type="text/javascript" src="cordova.js"></script>
+	<script src="js/sessionCookie.js" type="text/javascript"></script>
   	<script src="js/js_utils.js" type="text/javascript"></script>
-  	<!--<script src="js/index.js" type="text/javascript"></script>-->
+  	<script src="js/index.js" type="text/javascript"></script>
 	</head>
 	<!--<link rel="stylesheet" type="text/css" href="css/index.css" />-->
 	<link rel="stylesheet" type="text/css" href="css/style.css" />
 	<body>
+	  <div id="deviceready" class="blink">
+	    <p class="event listening">Connecting to Device</p>
+	    <p class="event received">Device is Ready</p>
+	  </div>
 	  <h1 class="titulo"> PPV - Plano Pessoal de Vida </h1>
 	  <form id="login" onsubmit="return false;">
 	    <label class="login-label" for="usuario">Usuário:</label><br>
@@ -27,6 +31,8 @@ width=device-width, height=device-height, target-densitydpi=device-dpi" />
 	</body>
 </html>
 <script language="JavaScript">
+
+document.addEventListener('deviceready', this.onDeviceReady, false);
 
 window.onload = function() {
   if (readSession('id_usuario') && readSession('id_usuario') !== 0) {
